@@ -25,8 +25,6 @@ jobs:
       - run:
           name: "say world"
           command: "echo World"
-    requires:
-      - say-hello
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -34,3 +32,5 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+      - say-world:
+          requires: [say-hello]
