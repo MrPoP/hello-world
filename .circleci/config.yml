@@ -36,7 +36,7 @@ jobs:
       - checkout
       - run:
           name: "print output file"
-          command: cat output.txt
+          command: cat ~/output.txt
       - attach_workspace:
           at: ~/
   # say-hello:
