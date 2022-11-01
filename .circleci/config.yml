@@ -10,12 +10,12 @@ executors:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  flow:
-      executor: my-executer
-      steps:
-        - run: mkdir -p tmp
-        - run: mkdir -p workspace
-        - run: ls -lA
+  # flow:
+  #     executor: my-executer
+  #     steps:
+  #       - run: mkdir -p tmp
+  #       - run: mkdir -p workspace
+  #       - run: ls -lA
 
   save-hello-world:
     executor: my-executer
@@ -79,7 +79,7 @@ workflows:
       #     - say-hello
       # - say-my-name:
       #     requires: [say-hello, say-world]
-      - flow
+      # - flow
       - save-hello-world
       - print_output_file:
           requires:
