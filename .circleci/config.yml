@@ -2,11 +2,11 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 #check it now
 version: 2.1
-executors:
-    my-executer:
-      docker:
-        - image: circleci/node:13.8.0
-      working_directory: /tmp
+# executors:
+#     my-executer:
+#       docker:
+#         - image: circleci/node:13.8.0
+#       working_directory: /tmp
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -18,7 +18,8 @@ jobs:
   #       - run: ls -lA
 
   save-hello-world:
-    executor: my-executer
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
@@ -29,7 +30,8 @@ jobs:
           paths:
             - output.txt
   print_output_file:
-    executor: my-executer
+    docker:
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
