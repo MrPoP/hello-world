@@ -14,8 +14,7 @@ jobs:
       steps:
         - run: mkdir -p workspace
   save-hello-world:
-    docker:
-      - image: circleci/node:13.8.0
+    executor: my-executor
     steps:
       - checkout
       - run:
@@ -27,8 +26,7 @@ jobs:
           paths:
             - output.txt
   print_output_file:
-    docker:
-      - image: circleci/node:13.8.0
+    executor: my-executor
     steps:
       - checkout
       - run:
