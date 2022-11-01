@@ -23,7 +23,7 @@ jobs:
           command: echo "text to output here" > output.txt
       - run: ls -lA
       - persist_to_workspace:
-          root: ""
+          root: /tmp/workspace
           paths:
             - output.txt
   print_output_file:
@@ -35,7 +35,7 @@ jobs:
           name: "print output file"
           command: cat output.txt
       - attach_workspace:
-          at: ""
+          at: /tmp/workspace
   # say-hello:
   #   # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
   #   # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -77,6 +77,7 @@ workflows:
       #     - say-hello
       # - say-my-name:
       #     requires: [say-hello, say-world]
+      - flow
       - save-hello-world
       - print_output_file:
           requires:
