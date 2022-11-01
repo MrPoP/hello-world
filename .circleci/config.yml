@@ -5,44 +5,70 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: circleci/node:13.8.0
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello!"
-  say-world:
+  save-hello-world:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: "say world"
-          command: "echo World"
-  say-my-name:
+          name: "save hello world"
+          command: echo "text to output here" > output.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - output.txt
+  print_output_file:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
-          name: "say my name"
-          command: "echo $My_Name"
+          name: "print output file"
+          command: cat output.txt
+      - attach_workspace:
+          at: /tmp/workspace
+  # say-hello:
+  #   # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+  #   # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   # Add steps to the job
+  #   # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "Say hello"
+  #         command: "echo Hello!"
+  # say-world:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "say world"
+  #         command: "echo World"
+  # say-my-name:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "say my name"
+  #         command: "echo $My_Name"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
-      - say-world:
-          #requires: [say-hello]
+      # - say-hello
+      # - say-world:
+      #     #requires: [say-hello]
+      #     requires:
+      #     - say-hello
+      # - say-my-name:
+      #     requires: [say-hello, say-world]
+      - save-hello-world
+      - print_output_file:
           requires:
-          - say-hello
-      - say-my-name:
-          requires: [say-hello, say-world]
+            - save-hello-world
