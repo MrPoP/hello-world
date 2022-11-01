@@ -13,6 +13,7 @@ jobs:
       executor: my-executer
       steps:
         - run: mkdir -p workspace
+        - run: ls
   save-hello-world:
     docker:
       - image: circleci/node:13.8.0
