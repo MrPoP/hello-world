@@ -18,7 +18,7 @@ jobs:
             paths:
               - echo-output
   save-hello-world:
-    executor: my-executor
+    executor: my-executer
     steps:
       - checkout
       - run:
@@ -30,7 +30,7 @@ jobs:
           paths:
             - output.txt
   print_output_file:
-    executor: my-executor
+    executor: my-executer
     steps:
       - checkout
       - run:
