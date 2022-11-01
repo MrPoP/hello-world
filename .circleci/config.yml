@@ -13,16 +13,20 @@ jobs:
       executor: my-executer
       steps:
         - run: mkdir -p workspace
+        - persist_to_workspace:
+            root: workspace
+            paths:
+              - echo-output
   save-hello-world:
     executor: my-executor
     steps:
       - checkout
       - run:
           name: "save hello world"
-          command: echo "text to output here" > output.txt
+          command: echo "text to output here" > workspace/echo-output/output.txt
       - run: ls -lA
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: /tmp/workspace/echo-output
           paths:
             - output.txt
   print_output_file:
@@ -31,9 +35,9 @@ jobs:
       - checkout
       - run:
           name: "print output file"
-          command: cat output.txt
+          command: cat /tmp/workspace/echo-output/output.txt
       - attach_workspace:
-          at: /tmp/workspace
+          at: /tmp/workspace/echo-output
   # say-hello:
   #   # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
   #   # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
