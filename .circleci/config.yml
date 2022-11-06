@@ -13,11 +13,11 @@ version: 2.1
 #modified
 commands:
   print_pipeline_id:
+    Parameters:
+      id:
+        Type: String
     steps:
-      - checkout
-      - Parameters:
-          id:
-            Type: String
+     # - checkout
       - run: echo << Parameters.id >>
 jobs:
   # flow:
