@@ -11,27 +11,39 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 #modified
-commands:
-  print_pipeline_id:
-    parameters:
-      id:
-        type: string
-    steps:
-     # - checkout
-      - run: echo << parameters.id >>
+# commands:
+#   print_pipeline_id:
+#     parameters:
+#       id:
+#         type: string
+#     steps:
+#      # - checkout
+#       - run: echo << parameters.id >>
 jobs:
+  return_non_zero:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run:
+          name: return_non_zero
+          command: returnnonzero
+          no_output_timeout: "10m"
+      - run:
+          name: alertOnnonzero
+          command: echo "Error"
+          when: on_fail
   # flow:
   #     executor: my-executer
   #     steps:
   #       - run: mkdir -p tmp
   #       - run: mkdir -p workspace
   #       - run: ls -lA
-    my_job:
-      docker:
-        - image: circleci/node:13.8.0
-      steps:
-        - print_pipeline_id:
-              id: << pipeline.id >>
+    # my_job:
+    #   docker:
+    #     - image: circleci/node:13.8.0
+    #   steps:
+    #     - print_pipeline_id:
+    #           id: << pipeline.id >>
   # save-hello-world:
   #   docker:
   #     - image: circleci/node:13.8.0
@@ -100,4 +112,5 @@ workflows:
       # - print_output_file:
       #     requires:
       #       - save-hello-world
-       - my_job
+      # - my_job
+      - return_non_zero
