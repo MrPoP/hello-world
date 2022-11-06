@@ -24,7 +24,7 @@ jobs:
         - checkout
         - run:
             name: "print pipeline id"
-            command: echo "This is pipe line id << pipeline.id >>"
+            command: echo "This is pipe line id $CIRCLE_WORKFLOW_ID"
   # save-hello-world:
   #   docker:
   #     - image: circleci/node:13.8.0
