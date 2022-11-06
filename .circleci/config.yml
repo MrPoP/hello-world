@@ -14,7 +14,10 @@ commands:
   print_pipeline_id:
     steps:
       - checkout
-      - run: echo ${CIRCLE_WORKFLOW_ID}
+      - Parameters:
+          id:
+            Type: String
+      - run: echo << Parameters.id >>
 jobs:
   # flow:
   #     executor: my-executer
@@ -26,7 +29,8 @@ jobs:
       docker:
         - image: circleci/node:13.8.0
       steps:
-        - print_pipeline_id
+        - print_pipeline_id:
+            id: << pipeline.id >>
   # save-hello-world:
   #   docker:
   #     - image: circleci/node:13.8.0
